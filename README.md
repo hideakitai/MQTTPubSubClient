@@ -6,8 +6,13 @@ MQTT and MQTT over WebSoket Client for Arduino
 ## Features
 
 - MQTT 3.1.1 based on [lwmqtt](https://github.com/256dpi/lwmqtt) ([arduino-mqtt](https://github.com/256dpi/arduino-mqtt))
-    - publish, subscribe, wildcard, qos 0/1/2, retain, will
-    - keep alive (interval and timeout), clean session
+    - publish and subscribe message
+    - wildcard support for topic
+    - qos 0/1/2
+    - retain
+    - will
+    - keep alive (interval and timeout)
+    - clean session
 - MQTT over WebSocket by using with [arduinoWebSockets](https://github.com/Links2004/arduinoWebSockets) library
 - Multiple callback per topic (no need to write `if`-`else` in callback)
 - Various boards support which has Arduino's `Client` class
