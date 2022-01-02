@@ -24,7 +24,7 @@ namespace mqtt {
     using ClientType = Client;
 #endif
 
-    template <size_t BUFFER_SIZE>
+    template <size_t BUFFER_SIZE, size_t CALLBACK_SIZE = 16>
     class PubSubClient {
         // ---------- lwmqtt interface types ----------
         // these structs are saved to inside of lwmqtt and invoked as (void*)
@@ -73,7 +73,7 @@ namespace mqtt {
 #if ARX_HAVE_LIBSTDCPLUSPLUS >= 201103L  // Have libstdc++11
         using TopicCallbacks = std::map<String, topic_callback_t>;
 #else
-        using TopicCallbacks = arx::map<String, topic_callback_t>;
+        using TopicCallbacks = arx::map<String, topic_callback_t, CALLBACK_SIZE>;
 #endif
 
         // required variables
