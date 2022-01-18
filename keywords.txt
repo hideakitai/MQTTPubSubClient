@@ -1,0 +1,41 @@
+#######################################
+# Syntax Coloring Map For MQTTPubSubClient
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MQTTPubSubClient        KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin   KEYWORD2
+connect KEYWORD2
+disconnect      KEYWORD2
+update  KEYWORD2
+
+publish KEYWORD2
+callback        KEYWORD2
+
+subscribe       KEYWORD2
+unsubscribe     KEYWORD2
+
+setClockSource  KEYWORD2
+setWill KEYWORD2
+clearWill       KEYWORD2
+setKeepAliveSendInterval        KEYWORD2
+setKeepAliveTimeout     KEYWORD2
+setCleanSession KEYWORD2
+setTimeout      KEYWORD2
+setOptions      KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+isConnected     LITERAL1
+getLastError    LITERAL1
+getReturnCode   LITERAL1
