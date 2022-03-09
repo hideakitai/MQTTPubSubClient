@@ -79,6 +79,8 @@ namespace mqtt {
         // required variables
         ClientType* client {nullptr};
         lwmqtt_will_t* will {nullptr};
+        String will_topic;
+        String will_payload;
         global_callback_t global_callback;
         TopicCallbacks callbacks;
         uint32_t prev_keep_alive_ms {0};
@@ -229,23 +231,23 @@ namespace mqtt {
 
             will = (lwmqtt_will_t*)malloc(sizeof(lwmqtt_will_t));
             memset(will, 0, sizeof(lwmqtt_will_t));
-            will->topic = lwmqtt_string(topic.c_str());
 
-            if (payload.length() > 0)
-                will->payload = lwmqtt_string(payload.c_str());
+            // save topic and payload to use them later
+            will_topic = topic;
+            will_payload = payload;
+
+            will->topic = lwmqtt_string(will_topic.c_str());
+            if (will_payload.length() > 0)
+                will->payload = lwmqtt_string(will_payload.c_str());
             will->retained = retained;
             will->qos = (lwmqtt_qos_t)qos;
         }
 
         void clearWill() {
-            if (will == nullptr)
-                return;
-            if (will->payload.len > 0)
-                free(will->payload.data);
-            if (will->topic.len > 0)
-                free(will->topic.data);
-            free(will);
-            will = nullptr;
+            if (will != nullptr) {
+                free(will);
+                will = nullptr;
+            }
         }
 
         void setKeepAliveSendInterval(const uint32_t ms) {
