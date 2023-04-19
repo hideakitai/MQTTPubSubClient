@@ -112,7 +112,7 @@ namespace mqtt {
                 delay(10);
             }
 #endif
-            lwmqtt_options_t options = lwmqtt_default_options;
+            lwmqtt_connect_options_t options = lwmqtt_default_connect_options;
             options.keep_alive = keep_alive_timeout_sec;
             options.clean_session = should_clean_session;
             options.client_id = lwmqtt_string(client_id.c_str());
@@ -123,7 +123,7 @@ namespace mqtt {
                 }
             }
 
-            last_error = lwmqtt_connect(&lwmqtt_client, options, will, &return_code, timeout_ms);
+            last_error = lwmqtt_connect(&lwmqtt_client, &options, will, timeout_ms);
             if (last_error != LWMQTT_SUCCESS) {
                 close();
                 return false;
@@ -145,7 +145,7 @@ namespace mqtt {
             message.retained = retained;
             message.qos = lwmqtt_qos_t(qos);
 
-            last_error = lwmqtt_publish(&lwmqtt_client, lwmqtt_string(topic.c_str()), message, timeout_ms);
+            last_error = lwmqtt_publish(&lwmqtt_client, nullptr, lwmqtt_string(topic.c_str()), message, timeout_ms);
             if (last_error != LWMQTT_SUCCESS) {
                 close();
                 return false;
