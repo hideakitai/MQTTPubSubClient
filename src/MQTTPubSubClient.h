@@ -57,7 +57,7 @@ namespace mqtt {
         uint8_t lwmqtt_read_buf[BUFFER_SIZE];
         uint8_t lwmqtt_write_buf[BUFFER_SIZE];
 #ifdef MQTTPUBSUBCLIENT_USE_WEBSOCKETS
-        lwmqtt_arduino_network_t lwmqtt_network {nullptr, {0}};
+        lwmqtt_arduino_network_t lwmqtt_network {nullptr, {}};
 #else
         lwmqtt_arduino_network_t lwmqtt_network {nullptr};
 #endif
