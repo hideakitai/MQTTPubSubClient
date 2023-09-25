@@ -106,6 +106,10 @@ namespace mqtt {
         }
 
         bool connect(const String& client_id, const String& user = "", const String& pass = "") {
+            if (this->isConnected()) {
+                this->close();
+            }
+
 #ifdef MQTTPUBSUBCLIENT_USE_WEBSOCKETS
             while (!client->isConnected()) {
                 client->loop();
@@ -273,6 +277,10 @@ namespace mqtt {
         }
 
         bool isConnected() const {
+            if (client == nullptr) {
+                Serial.println("network client is not set");
+                return false;
+            }
 #ifdef MQTTPUBSUBCLIENT_USE_WEBSOCKETS
             return client->isConnected() && (is_connected);
 #else
