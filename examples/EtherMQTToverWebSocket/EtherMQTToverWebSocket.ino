@@ -8,23 +8,31 @@ const IPAddress ip(192, 168, 0, 201);
 WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
-void setup() {
-    Serial.begin(115200);
-    Ethernet.begin(mac, ip);
-
+void connect() {
+connect_to_host:
     Serial.println("connecting to host...");
+    client.disconnect();
     client.begin("test.mosquitto.org", 8080, "/", "mqtt");  // "mqtt" is required
     client.setReconnectInterval(2000);
-
-    // initialize mqtt client
-    mqtt.begin(client);
 
     Serial.print("connecting to mqtt broker...");
     while (!mqtt.connect("arduino", "public", "public")) {
         Serial.print(".");
         delay(1000);
+        if (!client.isConnected()) {
+            Serial.println("WebSocketsClient disconnected");
+            goto connect_to_host;
+        }
     }
     Serial.println(" connected!");
+}
+
+void setup() {
+    Serial.begin(115200);
+    Ethernet.begin(mac, ip);
+
+    // initialize mqtt client
+    mqtt.begin(client);
 
     // subscribe callback which is called when every packet has come
     mqtt.subscribe([](const String& topic, const String& payload, const size_t size) {
@@ -36,10 +44,16 @@ void setup() {
         Serial.print("/hello ");
         Serial.println(payload);
     });
+
+    connect();
 }
 
 void loop() {
     mqtt.update();  // should be called
+
+    if (!mqtt.isConnected()) {
+        connect();
+    }
 
     // publish message
     static uint32_t prev_ms = millis();
