@@ -7,10 +7,8 @@ const char* pass = "your-password";
 WiFiClient client;
 MQTTPubSubClient mqtt;
 
-void setup() {
-    Serial.begin(115200);
-    WiFi.begin(ssid, pass);
-
+void connect() {
+connect_to_wifi:
     Serial.print("connecting to wifi...");
     while (WiFi.status() != WL_CONNECTED) {
         Serial.print(".");
@@ -18,22 +16,42 @@ void setup() {
     }
     Serial.println(" connected!");
 
+connect_to_host:
     Serial.print("connecting to host...");
+    client.stop();
     while (!client.connect("public.cloud.shiftr.io", 1883)) {
         Serial.print(".");
         delay(1000);
+        if (WiFi.status() != WL_CONNECTED) {
+            Serial.println("WiFi disconnected");
+            goto connect_to_wifi;
+        }
     }
     Serial.println(" connected!");
 
-    // initialize mqtt client
-    mqtt.begin(client);
-
     Serial.print("connecting to mqtt broker...");
+    mqtt.disconnect();
     while (!mqtt.connect("arduino", "public", "public")) {
         Serial.print(".");
         delay(1000);
+        if (WiFi.status() != WL_CONNECTED) {
+            Serial.println("WiFi disconnected");
+            goto connect_to_wifi;
+        }
+        if (client.connected() != 1) {
+            Serial.println("WiFiClient disconnected");
+            goto connect_to_host;
+        }
     }
     Serial.println(" connected!");
+}
+
+void setup() {
+    Serial.begin(115200);
+    WiFi.begin(ssid, pass);
+
+    // initialize mqtt client
+    mqtt.begin(client);
 
     // subscribe callback which is called when every packet has come
     mqtt.subscribe([](const String& topic, const String& payload, const size_t size) {
@@ -45,10 +63,16 @@ void setup() {
         Serial.print("/hello ");
         Serial.println(payload);
     });
+
+    connect();
 }
 
 void loop() {
     mqtt.update();  // should be called
+
+    if (!mqtt.isConnected()) {
+        connect();
+    }
 
     // publish message
     static uint32_t prev_ms = millis();
