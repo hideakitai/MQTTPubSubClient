@@ -8,8 +8,8 @@ extern "C" {
 #include "MQTTPubSubClient/lwmqtt/lwmqtt.h"
 }
 
-#include "MQTTPubSubClient/util/ArxTypeTraits/ArxTypeTraits.h"
-#include "MQTTPubSubClient/util/ArxContainer/ArxContainer.h"
+#include <ArxTypeTraits.h>
+#include <ArxContainer.h>
 
 #ifdef WEBSOCKETS_H_
 #define MQTTPUBSUBCLIENT_USE_WEBSOCKETS

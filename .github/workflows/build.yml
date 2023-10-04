@@ -51,6 +51,8 @@ jobs:
             - examples
           libraries: |
             - source-path: ./
+            - name: ArxContainer
+            - name: ArxTypeTraits
             - name: WebSockets
             - name: Ethernet
             - name: ArduinoJson
