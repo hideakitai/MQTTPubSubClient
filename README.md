@@ -224,10 +224,10 @@ lwmqtt_return_code_t getReturnCode() const;
 ```
 
 
-## Embedded Libraries
+## Dependent Libraries
 
-- [ArxTypeTraits v0.2.1](https://github.com/hideakitai/ArxTypeTraits)
-- [ArxContainer v0.3.14](https://github.com/hideakitai/ArxContainer)
+- [ArxTypeTraits](https://github.com/hideakitai/ArxTypeTraits)
+- [ArxContainer](https://github.com/hideakitai/ArxContainer)
 
 
 ## License
