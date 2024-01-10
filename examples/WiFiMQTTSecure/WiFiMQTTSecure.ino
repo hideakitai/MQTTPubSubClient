@@ -55,6 +55,9 @@ void setup() {
     // initialize mqtt client
     mqtt.begin(client);
 
+    // connect to wifi, host and mqtt broker
+    connect();
+
     // subscribe callback which is called when every packet has come
     mqtt.subscribe([](const String& topic, const String& payload, const size_t size) {
         Serial.println("mqtt received: " + topic + " - " + payload);
@@ -65,8 +68,6 @@ void setup() {
         Serial.print("/hello ");
         Serial.println(payload);
     });
-
-    connect();
 }
 
 void loop() {
