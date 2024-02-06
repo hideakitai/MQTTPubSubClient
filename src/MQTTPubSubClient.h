@@ -43,7 +43,7 @@ namespace mqtt {
 #if ARX_HAVE_LIBSTDCPLUSPLUS >= 201103L  // Have libstdc++11
             std::deque<uint8_t> buffer;
 #else
-            arx::deque<uint8_t, BUFFER_SIZE> buffer;
+            arx::stdx::deque<uint8_t, BUFFER_SIZE> buffer;
 #endif
 #endif
         } lwmqtt_arduino_network_t;
@@ -73,7 +73,7 @@ namespace mqtt {
 #if ARX_HAVE_LIBSTDCPLUSPLUS >= 201103L  // Have libstdc++11
         using TopicCallbacks = std::map<String, topic_callback_t>;
 #else
-        using TopicCallbacks = arx::map<String, topic_callback_t, CALLBACK_SIZE>;
+        using TopicCallbacks = arx::stdx::map<String, topic_callback_t, CALLBACK_SIZE>;
 #endif
 
         // required variables
