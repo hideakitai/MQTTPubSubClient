@@ -111,7 +111,12 @@ namespace mqtt {
             }
 
 #ifdef MQTTPUBSUBCLIENT_USE_WEBSOCKETS
+            uint32_t now = millis();
             while (!client->isConnected()) {
+                if (millis() > now + timeout_ms) {
+                    Serial.println("connection timeout");
+                    return false;
+                }
                 client->loop();
                 delay(10);
             }
