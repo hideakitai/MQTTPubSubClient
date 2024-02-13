@@ -87,7 +87,7 @@ namespace mqtt {
         uint32_t keep_alive_interval_ms {10};
 
         // options
-        uint32_t timeout_ms {1000};
+        uint32_t timeout_ms {5000};
         uint16_t keep_alive_timeout_sec {100};
         bool should_clean_session {true};
 
